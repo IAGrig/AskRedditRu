@@ -63,7 +63,7 @@ def generate_image(text: str, filename: str = "filename") -> None:
 
 
 def generate_images(title: str, comments: list) -> None:
-    generate_image(title, 'title')
+    generate_image(title, '00title')
     for index in range(len(comments)):
         generate_image(comments[index], str(index))
 
