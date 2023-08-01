@@ -1,6 +1,7 @@
 from PIL import Image, ImageDraw, ImageFont
+import config
 
-FILENAME = "background.jpg"
+FILENAME = config.BACKGROUND_IMAGE_PATH
 START_X, START_Y = 60, 50
 
 # fontsize : (num_of_rows, chars_per_row, summary_char_capability)
@@ -51,10 +52,10 @@ def cut_comment2(text: str):
 
 
 def generate_image(text: str, filename: str = "filename") -> None:
-    chunks, fontsize = cut_comment2(text)
+    chunks, fontsize = cut_comment2(text) #  TODO raise exceptions and logging
     with Image.open(FILENAME) as image:
         image.load()
-    font = ImageFont.truetype("univers.ttf", fontsize)
+    font = ImageFont.truetype(config.FONT_PATH, fontsize)
     image_draw = ImageDraw.Draw(image)
     image_draw.multiline_text((START_X, START_Y), "\n".join(chunks), fill=(0, 0, 0), font=font)
 
@@ -67,6 +68,3 @@ def generate_images(title: str, comments: list) -> None:
     for index in range(len(comments)):
         generate_image(comments[index], str(index))
 
-s = ''
-
-print(generate_image(s))

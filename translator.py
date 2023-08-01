@@ -11,6 +11,7 @@ def translate_en2ru(text: str) -> str:
         except Exception as e:
             # TODO logging
             continue
+    return result
 
 
 def translate_list(array: list) -> list:
