@@ -37,6 +37,40 @@ async def cmd_askreddit(message: types.Message, command: CommandObject):
     else:
         await message.answer("You should send me post id")
 
+@dp.message(Command("edit_tittle"))
+async def cmd_edit_tittle(message: types.Message, command: CommandObject):
+    if command.args:
+        new_tittle = command.args
+        tools.set_new_tittle_text(new_tittle)
+        await message.answer("Done! If you want regenerate images just choose their numbers again. Tittle image will regenerate together with them")
+    else:
+        tittle, comment = tools.get_tittle_and_posts_from_file()
+        await message.answer(tittle)
+        await message.answer("You should send me new tittle.\n/edit_tittle <new tittle>")
+
+
+
+@dp.message(Command("edit_comment"))
+async def cmd_edit_comment(message: types.Message, command: CommandObject):
+    if command.args:
+        command_args_splitted = command.args.split()
+        comment_id, new_comment_text = command_args_splitted[0], command_args_splitted[1:]
+        if not new_comment_text and comment_id.isdecimal():
+            comment_text = tools.get_comment_text_by_id(int(comment_id))
+            await message.answer(comment_text)
+        elif new_comment_text and comment_id.isdecimal():
+            tools.set_new_comment_text(int(comment_id), " ".join(new_comment_text))
+            await message.answer("Done! If you want regenerate images just choose their numbers again.")
+        else:
+            await message.answer("Incorrect input")
+
+    else:
+        await message.answer("You should send me comment id.\n/edit_comment <comment id>\nOR\n/edit_comment <comment id> <new comment text>")
+
+@dp.message(Command("vkpost"))
+async def cmd_vkpost(message: types.Message):
+    pass
+
 
 @dp.message(F.text)
 async def handle_comment_numbers(message: types.Message):
@@ -53,16 +87,9 @@ async def handle_comment_numbers(message: types.Message):
 
     await message.answer('Done! Files created.\nIf you want to post to VK group send me /vkpost')
 
-@dp.message(Command("vkpost"))
-async def cmd_vkpost(message: types.Message):
-    pass
-
-
-
 
 # TODO config modification: comments file path, font file
     
-
 
 async def tg_main():
     await dp.start_polling(bot)

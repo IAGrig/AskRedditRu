@@ -13,7 +13,7 @@ fontsizes = {20: (28, 54, 1512),
 
 
 def cut_comment(text: str):
-    if len(text) > fontsizes[min(fontsizes.keys())][2]: return -1  # too large text
+    if len(text) > fontsizes[min(fontsizes.keys())][2]: return ["Too large text"], 40
     fontsize = 40
     while len(text) > fontsizes[fontsize][2]: fontsize -= 5
     char_per_row = fontsizes[fontsize][1]
@@ -24,7 +24,7 @@ def cut_comment(text: str):
 
 
 def cut_comment2(text: str):
-    if len(text) > fontsizes[min(fontsizes.keys())][2]: return -1  # too large text
+    if len(text) > fontsizes[min(fontsizes.keys())][2]: return ["Too large text"], 40
     fontsize = 40
     while len(text) > fontsizes[fontsize][2]: fontsize -= 5
     char_per_row = fontsizes[fontsize][1]
@@ -52,7 +52,7 @@ def cut_comment2(text: str):
 
 
 def generate_image(text: str, filename: str = "filename") -> None:
-    chunks, fontsize = cut_comment2(text) #  TODO raise exceptions and logging
+    chunks, fontsize = cut_comment2(text) 
     with Image.open(FILENAME) as image:
         image.load()
     font = ImageFont.truetype(config.FONT_PATH, fontsize)
